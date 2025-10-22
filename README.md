@@ -124,4 +124,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For questions or support, please contact:
 - Email: info@kunsthauscanvasbids.com
-- Phone: +1 (555) 123-4567
+- Phone: +1 (555) 123-4567# art-site
