@@ -1,11 +1,12 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useCallback } from 'react';
+import { useAuth } from './AuthContext';
 
 const AuctionContext = createContext();
 
 const initialState = {
   auctions: [],
-  user: null,
-  isAuthenticated: false,
+  userBids: [],
+  watchlist: [],
   loading: false,
   error: null
 };
@@ -23,15 +24,33 @@ const auctionReducer = (state, action) => {
         ...state,
         auctions: state.auctions.map(auction =>
           auction.id === action.payload.auctionId
-            ? { ...auction, currentBid: action.payload.newBid }
+            ? { 
+                ...auction, 
+                currentBid: action.payload.newBid,
+                bidCount: auction.bidCount + 1
+              }
             : auction
-        )
+        ),
+        userBids: [
+          ...state.userBids,
+          {
+            id: Date.now(),
+            auctionId: action.payload.auctionId,
+            amount: action.payload.newBid,
+            timestamp: new Date(),
+            status: 'active'
+          }
+        ]
       };
-    case 'SET_USER':
+    case 'ADD_TO_WATCHLIST':
       return {
         ...state,
-        user: action.payload,
-        isAuthenticated: !!action.payload
+        watchlist: [...state.watchlist, action.payload]
+      };
+    case 'REMOVE_FROM_WATCHLIST':
+      return {
+        ...state,
+        watchlist: state.watchlist.filter(id => id !== action.payload)
       };
     case 'SET_LOADING':
       return {
@@ -56,36 +75,45 @@ const auctionReducer = (state, action) => {
 
 export const AuctionProvider = ({ children }) => {
   const [state, dispatch] = useReducer(auctionReducer, initialState);
+  const { user, isAuthenticated, isLoading } = useAuth();
 
-  const setAuctions = (auctions) => {
+  const setAuctions = useCallback((auctions) => {
     dispatch({ type: 'SET_AUCTIONS', payload: auctions });
-  };
+  }, []);
 
-  const updateBid = (auctionId, newBid) => {
+  const updateBid = useCallback((auctionId, newBid) => {
     dispatch({ type: 'UPDATE_BID', payload: { auctionId, newBid } });
-  };
+  }, []);
 
-  const setUser = (user) => {
-    dispatch({ type: 'SET_USER', payload: user });
-  };
+  const addToWatchlist = useCallback((auctionId) => {
+    dispatch({ type: 'ADD_TO_WATCHLIST', payload: auctionId });
+  }, []);
 
-  const setLoading = (loading) => {
+  const removeFromWatchlist = useCallback((auctionId) => {
+    dispatch({ type: 'REMOVE_FROM_WATCHLIST', payload: auctionId });
+  }, []);
+
+  const setLoading = useCallback((loading) => {
     dispatch({ type: 'SET_LOADING', payload: loading });
-  };
+  }, []);
 
-  const setError = (error) => {
+  const setError = useCallback((error) => {
     dispatch({ type: 'SET_ERROR', payload: error });
-  };
+  }, []);
 
-  const clearError = () => {
+  const clearError = useCallback(() => {
     dispatch({ type: 'CLEAR_ERROR' });
-  };
+  }, []);
 
   const value = {
     ...state,
+    user,
+    isAuthenticated,
+    isLoading,
     setAuctions,
     updateBid,
-    setUser,
+    addToWatchlist,
+    removeFromWatchlist,
     setLoading,
     setError,
     clearError

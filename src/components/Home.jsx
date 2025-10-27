@@ -9,15 +9,51 @@ const Home = () => {
   const [stats, setStats] = useState({ auctions: 0, artists: 0, collectors: 0, sales: 0 });
 
   const featuredArtworks = [
-    { title: "Abstract Symphony", artist: "Elena Vasquez", price: "$45,000", image: "artwork1" },
-    { title: "Urban Dreams", artist: "Marcus Chen", price: "$32,000", image: "artwork2" },
-    { title: "Golden Horizon", artist: "Sofia Rodriguez", price: "$28,500", image: "artwork3" }
+    { 
+      title: "Abstract Symphony", 
+      artist: "Elena Vasquez", 
+      price: "$45,000", 
+      image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2xhc3NpYyUyMGFydHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600"
+    },
+    { 
+      title: "Urban Dreams", 
+      artist: "Marcus Chen", 
+      price: "$32,000", 
+      image: "https://images.unsplash.com/flagged/photo-1572392640988-ba48d1a74457?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2xhc3NpYyUyMGFydHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600"
+    },
+    { 
+      title: "Golden Horizon", 
+      artist: "Sofia Rodriguez", 
+      price: "$28,500", 
+      image: "https://plus.unsplash.com/premium_photo-1661962273984-0df0094e153f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2xhc3NpYyUyMGFydHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600"
+    }
   ];
 
   const testimonials = [
-    { name: "Alexandra Morrison", role: "Art Collector", text: "The most sophisticated auction platform I've used. Exceptional curation and seamless experience." },
-    { name: "David Chen", role: "Gallery Owner", text: "Kunsthaus has revolutionized how we connect with serious collectors worldwide." },
-    { name: "Isabella Rodriguez", role: "Artist", text: "A platform that truly values and showcases artistic excellence." }
+    { 
+      name: "Alexandra Morrison", 
+      role: "Art Collector", 
+      location: "New York",
+      text: "Kunsthaus Canvas Bids has completely transformed my collecting experience. The platform's sophisticated curation and seamless bidding process make it effortless to discover and acquire exceptional pieces. I've built half of my collection through their auctions.",
+      rating: 5,
+      avatar: "AM"
+    },
+    { 
+      name: "David Chen", 
+      role: "Gallery Owner", 
+      location: "Los Angeles",
+      text: "As a gallery owner, I've partnered with many auction houses, but Kunsthaus stands apart. Their global reach and commitment to artist representation has helped us connect with serious collectors we never would have reached otherwise. Truly revolutionary.",
+      rating: 5,
+      avatar: "DC"
+    },
+    { 
+      name: "Isabella Rodriguez", 
+      role: "Contemporary Artist", 
+      location: "Barcelona",
+      text: "Finding the right platform to showcase my work was crucial for my career. Kunsthaus doesn't just sell art—they celebrate it. The way they present each piece with detailed provenance and artistic context shows they truly understand and value artistic excellence.",
+      rating: 5,
+      avatar: "IR"
+    }
   ];
 
   useEffect(() => {
@@ -106,17 +142,28 @@ const Home = () => {
                   className={`carousel-slide ${index === currentSlide ? 'active' : ''}`}
                 >
                   <div className="artwork-card">
-                    <div className="artwork-image">
-                      <div className="image-placeholder">
-                        {artwork.title}
+                    <div className="artwork-image-wrapper">
+                      <img 
+                        src={artwork.image} 
+                        alt={`${artwork.title} by ${artwork.artist}`}
+                        className="artwork-img"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'flex';
+                        }}
+                      />
+                      <div className="artwork-placeholder" style={{display: 'none'}}>
+                        <div className="placeholder-icon">🎨</div>
+                        <div className="placeholder-title">{artwork.title}</div>
                       </div>
-                      <div className="artwork-overlay">
-                        <span className="artwork-price">{artwork.price}</span>
+                      <div className="price-badge">
+                        {artwork.price}
                       </div>
                     </div>
-                    <div className="artwork-info">
-                      <h3>{artwork.title}</h3>
-                      <p>by {artwork.artist}</p>
+                    <div className="artwork-details">
+                      <h3 className="artwork-title">{artwork.title}</h3>
+                      <p className="artwork-artist">by {artwork.artist}</p>
                     </div>
                   </div>
                 </div>
@@ -199,16 +246,26 @@ const Home = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
+                <div className="testimonial-header">
+                  <div className="testimonial-rating">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <FaStar key={i} className="star-icon" />
+                    ))}
+                  </div>
+                </div>
+                
                 <div className="testimonial-content">
                   <p>"{testimonial.text}"</p>
                 </div>
+                
                 <div className="testimonial-author">
                   <div className="author-avatar">
-                    {testimonial.name.charAt(0)}
+                    {testimonial.avatar}
                   </div>
                   <div className="author-info">
                     <h4>{testimonial.name}</h4>
-                    <span>{testimonial.role}</span>
+                    <span className="author-role">{testimonial.role}</span>
+                    <span className="author-location">{testimonial.location}</span>
                   </div>
                 </div>
               </motion.div>

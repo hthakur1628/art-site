@@ -21,9 +21,9 @@ const Footer = () => {
           <div className="footer-section">
             <h4>Follow Us</h4>
             <div className="social-links">
-              <a href="#" aria-label="Facebook">Facebook</a>
-              <a href="#" aria-label="Instagram">Instagram</a>
-              <a href="#" aria-label="Twitter">Twitter</a>
+              <button type="button" aria-label="Facebook">Facebook</button>
+              <button type="button" aria-label="Instagram">Instagram</button>
+              <button type="button" aria-label="Twitter">Twitter</button>
             </div>
           </div>
         </div>
