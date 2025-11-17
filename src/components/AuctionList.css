@@ -79,6 +79,12 @@
   border-color: var(--primary-gold);
   box-shadow: 0 0 0 4px rgba(201, 169, 110, 0.15);
   background: var(--cream);
+  transform: translateY(-2px);
+}
+
+.search-input:hover:not(:focus) {
+  border-color: rgba(201, 169, 110, 0.4);
+  transform: translateY(-1px);
 }
 
 .search-input::placeholder {
@@ -172,9 +178,10 @@
   border-radius: var(--border-radius-small);
   cursor: pointer;
   font-weight: 500;
-  transition: var(--transition-smooth);
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  transform: translateY(0);
 }
 
 .filter-buttons button::before {
@@ -184,24 +191,32 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  /* background: var(--gradient-gold); */
-  transition: left 0.3s ease;
+  background: var(--gradient-gold);
+  transition: left 0.4s ease;
+  z-index: -1;
 }
 
 .filter-buttons button:hover {
   background: var(--gradient-gold);
   color: var(--dark-charcoal);
-  transition: 0.5s;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-light);
 }
 
 .filter-buttons button.active {
   background: var(--gradient-gold);
   color: var(--dark-charcoal);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-light);
 }
 
 .filter-buttons button:hover::before,
 .filter-buttons button.active::before {
   left: 0;
+}
+
+.filter-buttons button:active {
+  transform: translateY(0);
 }
 
 .auctions-grid {
@@ -211,15 +226,18 @@
 }
 
 .auction-card {
-  background: var(--warm-white);
+  background: rgba(254, 254, 254, 0.95);
+  backdrop-filter: blur(10px);
   border-radius: var(--border-radius-large);
   box-shadow: var(--shadow-light);
   overflow: hidden;
-  transition: var(--transition-elegant);
-  border: 1px solid rgba(201, 169, 110, 0.1);
+  transition: var(--transition-smooth);
+  border: 1px solid rgba(201, 169, 110, 0.15);
   position: relative;
   display: flex;
   flex-direction: column;
+  will-change: transform, box-shadow;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .auction-card::before {
@@ -229,40 +247,89 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(201, 169, 110, 0.02) 0%, rgba(244, 228, 188, 0.04) 100%);
+  background: linear-gradient(135deg, rgba(201, 169, 110, 0.05) 0%, rgba(244, 228, 188, 0.08) 100%);
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
   z-index: 1;
 }
 
-.auction-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-glow);
-  border-color: rgba(201, 169, 110, 0.3);
+@media (hover: hover) and (pointer: fine) {
+  .auction-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-glow);
+    border-color: rgba(201, 169, 110, 0.3);
+  }
+
+  .auction-card:hover::before {
+    opacity: 1;
+  }
+  
+  .auction-card:hover .auction-image {
+    transform: scale(1.05);
+    filter: brightness(1.05) contrast(1.02);
+  }
 }
 
-.auction-card:hover::before {
-  opacity: 1;
+/* Mobile touch feedback */
+.auction-card:active {
+  transform: translateY(-2px) scale(0.99);
+  transition: var(--transition-fast);
+}
+
+/* Sold auction card styling */
+.auction-card:has(.sold-badge) {
+  opacity: 0.85;
+  border-color: rgba(114, 47, 55, 0.2);
+}
+
+.auction-card:has(.sold-badge):hover {
+  transform: translateY(-4px);
+  opacity: 0.9;
+}
+
+.auction-card:has(.sold-badge) .auction-image {
+  filter: grayscale(0.2);
 }
 
 /* Image Container */
 .auction-image-container {
   position: relative;
   height: 280px;
+  width: 100%;
   overflow: hidden;
   background: linear-gradient(135deg, var(--soft-gray), var(--light-gray));
   border-bottom: 1px solid rgba(201, 169, 110, 0.1);
+  flex-shrink: 0;
 }
 
 .auction-image {
   width: 100%;
   height: 100%;
+  min-height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: all 0.4s ease;
+  transition: var(--transition-smooth);
   display: block;
-  background: linear-gradient(135deg, var(--cream), var(--soft-gray));
+  background: linear-gradient(
+    90deg,
+    var(--soft-gray) 0%,
+    var(--light-gray) 20%,
+    var(--soft-gray) 40%,
+    var(--soft-gray) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerLoading 1.5s infinite;
+  will-change: transform;
+}
+
+@keyframes shimmerLoading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 .auction-image:loading {
@@ -271,12 +338,10 @@
 
 .auction-image:loaded {
   opacity: 1;
+  animation: none;
 }
 
-.auction-card:hover .auction-image {
-  transform: scale(1.05);
-  filter: brightness(1.05) contrast(1.02);
-}
+
 
 .placeholder-artwork {
   position: absolute;
@@ -288,16 +353,18 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, var(--cream), var(--soft-gray));
+  padding: 1rem;
 }
 
 .placeholder-content {
   text-align: center;
-  padding: 2rem;
-  max-width: 80%;
+  padding: 1.5rem;
+  max-width: 90%;
+  width: 100%;
 }
 
 .placeholder-icon {
-  font-size: 3rem;
+  font-size: clamp(2rem, 5vw, 3rem);
   margin-bottom: 1rem;
   opacity: 0.6;
   filter: grayscale(0.3);
@@ -305,17 +372,19 @@
 
 .placeholder-text {
   color: var(--dark-charcoal);
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
   font-weight: 600;
   line-height: 1.4;
   margin-bottom: 0.5rem;
+  word-wrap: break-word;
 }
 
 .placeholder-artist {
   color: var(--medium-gray);
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
   font-style: italic;
   opacity: 0.8;
+  word-wrap: break-word;
 }
 
 /* Badges and Overlays */
@@ -333,6 +402,37 @@
   letter-spacing: 0.5px;
   box-shadow: var(--shadow-light);
   z-index: 2;
+  animation: pulse 2s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-badge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmer 3s infinite;
+}
+
+.sold-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: linear-gradient(135deg, var(--burgundy) 0%, var(--deep-burgundy) 100%);
+  color: var(--warm-white);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(114, 47, 55, 0.4);
+  z-index: 2;
+  border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .auction-overlay {
@@ -347,7 +447,7 @@
 
 .bid-count,
 .watchers {
-  background: rgba(15, 15, 15, 0.8);
+  background: rgba(15, 15, 15, 0.9);
   color: var(--warm-white);
   padding: 0.3rem 0.6rem;
   border-radius: 12px;
@@ -356,6 +456,16 @@
   backdrop-filter: blur(10px);
   text-align: center;
   min-width: 60px;
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.auction-card:hover .bid-count,
+.auction-card:hover .watchers {
+  background: rgba(201, 169, 110, 0.2);
+  border-color: rgba(201, 169, 110, 0.6);
+  transform: translateX(-5px);
 }
 
 /* Auction Details */
@@ -373,33 +483,45 @@
 }
 
 .artwork-title {
-  font-size: 1.4rem;
+  font-size: 1.75rem;
   color: var(--dark-charcoal);
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  line-height: 1.3;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .artist-name {
   color: var(--medium-gray);
   font-style: italic;
-  margin-bottom: 0.75rem;
-  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
 }
 
 .artwork-meta {
   display: flex;
-  gap: 1rem;
-  font-size: 0.9rem;
+  gap: 1.5rem;
+  font-size: 1rem;
   color: var(--dark-gray);
+  align-items: center;
 }
 
 .year,
 .medium {
-  padding: 0.2rem 0.6rem;
-  background: rgba(201, 169, 110, 0.1);
-  border-radius: 12px;
+  padding: 0.35rem 0.85rem;
+  background: rgba(201, 169, 110, 0.12);
+  border-radius: 16px;
   font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: all 0.3s ease;
+}
+
+.auction-card:hover .year,
+.auction-card:hover .medium {
+  background: rgba(201, 169, 110, 0.2);
+  transform: translateY(-2px);
 }
 
 /* Bid Section */
@@ -433,6 +555,12 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  transition: all 0.3s ease;
+}
+
+.auction-card:hover .bid-amount {
+  transform: scale(1.05);
+  filter: brightness(1.1);
 }
 
 .auction-status {
@@ -460,6 +588,19 @@
   color: var(--burgundy);
   font-weight: 600;
   font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(114, 47, 55, 0.3);
+  animation: urgentPulse 2s ease-in-out infinite;
+}
+
+@keyframes urgentPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 .estimate-value {
@@ -479,7 +620,7 @@
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  transition: var(--transition-smooth);
+  transition: all 0.3s ease;
   box-shadow: var(--shadow-light);
   position: relative;
   overflow: hidden;
@@ -503,9 +644,22 @@
   z-index: -1;
 }
 
+.bid-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
 .bid-button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-medium);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: var(--shadow-glow);
   border-color: var(--primary-gold-dark);
 }
 
@@ -513,10 +667,43 @@
   opacity: 1;
 }
 
+.bid-button:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+.bid-button:active {
+  transform: translateY(-1px) scale(1);
+}
+
 .bid-button .min-bid {
   font-size: 0.8rem;
   opacity: 0.8;
   font-weight: 500;
+}
+
+.bid-button.sold-button {
+  background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
+  color: var(--light-gray);
+  border-color: var(--medium-gray);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.bid-button.sold-button:hover {
+  transform: none;
+  box-shadow: var(--shadow-light);
+  background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
+}
+
+.bid-button.sold-button::before,
+.bid-button.sold-button::after {
+  display: none;
+}
+
+.bid-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 /* Enhanced Responsive Design */
@@ -574,8 +761,12 @@
     font-size: 0.9rem;
   }
 
+  .auction-image-container {
+    height: 220px;
+  }
+  
   .auction-image {
-    height: 200px;
+    min-height: 220px;
   }
 
   .auction-details {
@@ -655,8 +846,12 @@
     max-width: 100%;
   }
 
+  .auction-image-container {
+    height: 200px;
+  }
+  
   .auction-image {
-    height: 180px;
+    min-height: 200px;
   }
 
   .auction-details {
@@ -741,13 +936,28 @@
     gap: 1rem;
   }
 
+  .auction-image-container {
+    height: 180px;
+  }
+  
   .auction-image {
-    height: 160px;
+    min-height: 180px;
   }
 
-  .placeholder-artwork {
-    font-size: 1rem;
-    padding: 0.75rem;
+  .placeholder-content {
+    padding: 1rem;
+  }
+  
+  .placeholder-icon {
+    font-size: 1.8rem;
+  }
+  
+  .placeholder-text {
+    font-size: 0.9rem;
+  }
+  
+  .placeholder-artist {
+    font-size: 0.8rem;
   }
 
   .auction-details {

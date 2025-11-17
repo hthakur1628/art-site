@@ -147,13 +147,12 @@ const SignIn = () => {
                 <span className="checkmark"></span>
                 Remember me
               </label>
-              <button 
-                type="button" 
+              <Link 
+                to="/forgot-password" 
                 className="forgot-link"
-                onClick={() => toast.info('Password reset feature coming soon!')}
               >
                 Forgot password?
-              </button>
+              </Link>
             </div>
 
             <button

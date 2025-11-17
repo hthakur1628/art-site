@@ -148,40 +148,40 @@
     padding: 1.5rem;
     margin: 1rem 0;
   }
-  
+
   .payment-modal h2 {
     font-size: 1.4rem;
     margin-bottom: 1.25rem;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
     gap: 0.75rem;
   }
-  
+
   .purchase-summary {
     padding: 0.875rem;
     margin-bottom: 1.5rem;
   }
-  
+
   .form-section {
     margin-bottom: 1.5rem;
   }
-  
+
   .form-section h4 {
     font-size: 1.1rem;
     margin-bottom: 0.875rem;
   }
-  
+
   .form-group {
     margin-bottom: 0.875rem;
   }
-  
+
   .form-group input {
     padding: 0.625rem;
     font-size: 0.95rem;
   }
-  
+
   .payment-submit-btn {
     padding: 0.875rem;
     font-size: 1rem;
@@ -192,14 +192,14 @@
   .payment-modal-overlay {
     padding: 0.5rem;
   }
-  
+
   .payment-modal {
     width: 98%;
     max-width: 350px;
     padding: 1.25rem;
     margin: 0.5rem 0;
   }
-  
+
   .close-btn {
     top: 0.75rem;
     right: 0.75rem;
@@ -207,54 +207,54 @@
     width: 25px;
     height: 25px;
   }
-  
+
   .payment-modal h2 {
     font-size: 1.3rem;
     margin-bottom: 1rem;
   }
-  
+
   .purchase-summary {
     padding: 0.75rem;
     margin-bottom: 1.25rem;
   }
-  
+
   .purchase-summary h3 {
     font-size: 1.1rem;
     margin-bottom: 0.4rem;
   }
-  
+
   .purchase-summary p {
     font-size: 0.9rem;
     margin-bottom: 0.4rem;
   }
-  
+
   .final-amount {
     font-size: 1.1rem !important;
   }
-  
+
   .form-section {
     margin-bottom: 1.25rem;
   }
-  
+
   .form-section h4 {
     font-size: 1rem;
     margin-bottom: 0.75rem;
   }
-  
+
   .form-group {
     margin-bottom: 0.75rem;
   }
-  
+
   .form-group label {
     font-size: 0.9rem;
     margin-bottom: 0.4rem;
   }
-  
+
   .form-group input {
     padding: 0.5rem;
     font-size: 0.9rem;
   }
-  
+
   .payment-submit-btn {
     padding: 0.75rem;
     font-size: 0.95rem;
@@ -265,11 +265,11 @@
   .payment-modal {
     padding: 1rem;
   }
-  
+
   .payment-modal h2 {
     font-size: 1.2rem;
   }
-  
+
   .form-group input,
   .payment-submit-btn {
     font-size: 0.85rem;

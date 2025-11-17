@@ -121,7 +121,7 @@ const SignUp = () => {
 
   return (
     <div className="auth-page">
-      <div className="auth-container">
+      <div className="auth-container two-column">
         <motion.div
           className="auth-card"
           initial={{ opacity: 0, y: 20 }}

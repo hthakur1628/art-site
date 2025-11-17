@@ -96,7 +96,6 @@
   transition: var(--transition-smooth);
   color: var(--warm-white);
 }
-
 .user-menu-trigger:hover {
   background: rgba(201, 169, 110, 0.2);
   border-color: rgba(201, 169, 110, 0.3);

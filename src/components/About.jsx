@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import './About.css';
 
 const About = () => {
@@ -6,13 +7,38 @@ const About = () => {
     <div className="about">
       <div className="about-container">
         <header className="about-header">
-          <h1>About Kunsthaus Canvas Bids</h1>
-          <p className="subtitle">Connecting art lovers with exceptional pieces since 2024</p>
+          <motion.h1
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            About Kunsthaus Canvas Bids
+          </motion.h1>
+          <motion.p 
+            className="subtitle"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            Connecting art lovers with exceptional pieces since 2024
+          </motion.p>
         </header>
 
-        <section className="mission-section">
+        <motion.section 
+          className="mission-section"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="content-grid">
-            <div className="text-content">
+            <motion.div 
+              className="text-content"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               <h2>Our Mission</h2>
               <p>
                 At Kunsthaus Canvas Bids, we believe that exceptional art should be accessible 
@@ -25,12 +51,16 @@ const About = () => {
                 galleries, and private collectors to ensure authenticity and quality. Every 
                 artwork tells a story, and we're here to help you discover yours.
               </p>
-            </div>
-            <div className="image-placeholder">
-              <span>Our Gallery</span>
-            </div>
-          </div>
-        </section>
+            </motion.div>
+<div className="image-placeholder">
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Leonardo_da_Vinci_-_Mona_Lisa.jpg/960px-Leonardo_da_Vinci_-_Mona_Lisa.jpg?20110213114729"
+    alt="Mona Lisa"
+    className="gallery-image"
+  />
+</div>
+</div>
+</motion.section>
 
         <section className="values-section">
           <h2>Our Values</h2>

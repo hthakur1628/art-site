@@ -9,8 +9,11 @@ import Footer from './components/Footer';
 import Home from './components/Home';
 import AuctionList from './components/AuctionList';
 import About from './components/About';
+import Gallery from './components/Gallery';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 import Profile from './components/Profile';
 import MyBids from './components/MyBids';
 import './App.css';
@@ -27,9 +30,12 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/auctions" element={<AuctionList />} />
+                <Route path="/gallery" element={<Gallery />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
                 <Route 
                   path="/profile" 
                   element={

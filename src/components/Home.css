@@ -24,6 +24,16 @@
     radial-gradient(circle at 25% 25%, rgba(201, 169, 110, 0.12) 0%, transparent 60%),
     radial-gradient(circle at 75% 75%, rgba(139, 115, 85, 0.08) 0%, transparent 60%),
     radial-gradient(circle at 50% 10%, rgba(244, 228, 188, 0.06) 0%, transparent 50%);
+  animation: subtleMove 20s ease-in-out infinite;
+}
+
+@keyframes subtleMove {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-2%, -2%) scale(1.02);
+  }
 }
 
 .hero-overlay {
@@ -37,6 +47,7 @@
       rgba(26, 26, 26, 0.75) 30%,
       rgba(45, 45, 45, 0.65) 70%,
       rgba(20, 20, 20, 0.8) 100%);
+  backdrop-filter: blur(1px);
 }
 
 .hero-content {
@@ -155,13 +166,21 @@
   display: flex;
   flex-direction: column;
   transform: rotateY(-2deg) rotateX(1deg);
-  transition: all 0.4s ease;
+  transition: var(--transition-smooth);
   border: 1px solid rgba(201, 169, 110, 0.15);
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.artwork-card:hover {
-  transform: rotateY(0deg) rotateX(0deg) scale(1.02);
-  box-shadow: var(--shadow-glow);
+@media (hover: hover) and (pointer: fine) {
+  .artwork-card:hover {
+    transform: rotateY(0deg) rotateX(0deg) scale(1.02);
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .artwork-card:hover .artwork-img {
+    transform: scale(1.05);
+  }
 }
 
 .artwork-image-wrapper {
@@ -170,6 +189,7 @@
   width: 100%;
   overflow: hidden;
   background: var(--soft-gray);
+  flex-shrink: 0;
 }
 
 .artwork-img {
@@ -179,11 +199,10 @@
   object-position: center;
   transition: transform 0.4s ease;
   display: block;
+  min-height: 100%;
 }
 
-.artwork-card:hover .artwork-img {
-  transform: scale(1.05);
-}
+
 
 .artwork-placeholder {
   position: absolute;
@@ -197,20 +216,22 @@
   justify-content: center;
   background: linear-gradient(135deg, var(--cream), var(--soft-gray));
   text-align: center;
-  padding: 2rem;
+  padding: 1.5rem;
 }
 
 .placeholder-icon {
-  font-size: 3rem;
+  font-size: clamp(2rem, 5vw, 3rem);
   margin-bottom: 1rem;
   opacity: 0.7;
 }
 
 .placeholder-title {
   color: var(--dark-charcoal);
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
   font-weight: 600;
   line-height: 1.3;
+  word-wrap: break-word;
+  max-width: 100%;
 }
 
 .price-badge {
@@ -339,6 +360,9 @@
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(201, 169, 110, 0.1);
+  transition: var(--transition-smooth);
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .feature-card::before {
@@ -350,11 +374,13 @@
   height: 100%;
   background: linear-gradient(135deg, rgba(201, 169, 110, 0.02) 0%, rgba(244, 228, 188, 0.04) 100%);
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: var(--transition-smooth);
 }
 
-.feature-card:hover::before {
-  opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+  .feature-card:hover::before {
+    opacity: 1;
+  }
 }
 
 .feature-icon {
@@ -593,6 +619,7 @@
     grid-template-columns: 1fr;
     gap: 3rem;
     text-align: center;
+    padding: 0 1rem;
   }
 
   .hero-stats {
@@ -601,9 +628,14 @@
   }
 
   .featured-carousel {
-    height: 400px;
-    max-width: 500px;
+    height: 450px;
+    max-width: 100%;
+    width: 100%;
     margin: 0 auto;
+  }
+  
+  .artwork-image-wrapper {
+    height: 280px;
   }
 
   .features-grid {
@@ -647,6 +679,10 @@
     min-width: 140px;
     max-width: 200px;
   }
+  
+  .carousel-indicators {
+    bottom: -2.5rem;
+  }
 
   .hero-stats {
     grid-template-columns: repeat(2, 1fr);
@@ -663,7 +699,15 @@
   }
 
   .featured-carousel {
-    height: 300px;
+    height: 350px;
+  }
+  
+  .artwork-image-wrapper {
+    height: 220px;
+  }
+  
+  .artwork-card {
+    max-height: 350px;
   }
 
   .features,
@@ -785,15 +829,25 @@
   }
 
   .featured-carousel {
-    height: 250px;
+    height: 300px;
   }
-
+  
+  .artwork-image-wrapper {
+    height: 180px;
+  }
+  
   .artwork-card {
     transform: none;
+    max-height: 300px;
   }
 
   .artwork-card:hover {
     transform: scale(1.02);
+  }
+  
+  .price-badge {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
   }
 
   .feature-card {
